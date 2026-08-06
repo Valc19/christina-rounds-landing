@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1F3A5F" />
+
+  <!-- DEMO: keep out of search engines until Christina approves the copy and
+       the Mailchimp form is live. Remove this line when it goes to production. -->
+  <meta name="robots" content="noindex, nofollow" />
+
+  <!-- title/description are also set from STRINGS by script.js -->
+  <title>Free Rental Analysis | Christina Rounds — South Bay San Diego Property Owners</title>
+  <meta
+    name="description"
+    data-i18n-attr="content:meta.description"
+    content="Thinking of renting out your South Bay property? Get a free, no-obligation rental analysis with real local numbers and honest advice. Zero pressure."
+  />
+
+  <!-- Open Graph (for when Christina shares the link) -->
+  <meta property="og:title" content="What Could Your South Bay Property Earn as a Rental?" />
+  <meta property="og:description" content="Free, no-obligation rental analysis for Chula Vista, Bonita, Eastlake and the South Bay. Real local numbers, honest advice, zero pressure." />
+  <meta property="og:type" content="website" />
+  <!-- TODO: replace with the live URL once deployed -->
+  <meta property="og:url" content="https://example.com/" />
+
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- =========================================================
+       HEADER — text-based brand (no personal logo file for Christina)
+       + EN/ES switch + click-to-call
+       ========================================================= -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#top" class="brand brand-text" aria-label="Christina Rounds, Realtor and Property Manager, Encore Realty">
+        <span class="brand-name">Christina Rounds</span>
+        <span class="brand-sub" data-i18n="brand.sub"></span>
+      </a>
+
+      <div class="header-actions">
+        <!--
+          The EN/ES language switch that used to sit here was removed on
+          2026-08-06: Christina serves Spanish-speaking owners but does not
+          speak Spanish herself, so the page must not imply she will. The
+          markup is kept in README.md ("Reactivating Spanish") in case she
+          asks for it later; the translation itself is still in script.js.
+        -->
+        <a href="#" class="header-call" data-contact-link="phone" data-i18n-attr="aria-label:header.callAria">
+          <span class="header-call-icon" aria-hidden="true">📞</span>
+          <span class="header-call-text" data-contact="phone"></span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- =========================================================
+         [A] HERO
+         ========================================================= -->
+    <section class="hero" id="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <h1 class="hero-headline" data-i18n="hero.headline"></h1>
+          <p class="hero-sub" data-i18n="hero.sub"></p>
+
+          <!-- On mobile this button scrolls to the form (which sits below).
+               On desktop the form is already visible to the right. -->
+          <a href="#lead-form" class="btn btn-accent btn-block hero-cta-mobile" data-scroll>
+            <span data-i18n="cta.primary"></span>
+          </a>
+
+          <ul class="hero-bullets" data-i18n-attr="aria-label:hero.bulletsAria">
+            <li data-i18n="hero.bullet1"></li>
+            <li data-i18n="hero.bullet2"></li>
+            <li data-i18n="hero.bullet3"></li>
+          </ul>
+        </div>
+
+        <!-- ===================== LEAD FORM (single source of truth) ===================== -->
+        <div class="hero-form-wrap" id="lead-form">
+          <div class="form-card">
+            <h2 class="form-title" data-i18n="form.title"></h2>
+            <p class="form-subtitle" data-i18n="form.subtitle"></p>
+
+            <!--
+              MAILCHIMP INTEGRATION
+              =====================
+              Submitted in the background (JSONP) so the visitor never leaves
+              the page and we control the success state. Same wiring as the
+              Colorado and David templates — see README.md.
+
+              >>> REPLACE THESE PLACEHOLDERS BEFORE GOING LIVE <<<
+                action                   : Christina's Mailchimp form-action URL
+                input name="b_XXXX_YYYY" : the honeypot field name from her embed code
+
+              Field "name" attributes below (EMAIL, FNAME, PHONE, ADDRESS,
+              SITUATION, TCPA_CONSENT) are Mailchimp MERGE TAGS. Create them in
+              Audience → Settings → Audience fields. ADDRESS must be a TEXT
+              field, never Mailchimp's native "Address" type.
+            -->
+            <form
+              id="rental-form"
+              novalidate
+              action="https://YOUR_DC.list-manage.com/subscribe/post-json?u=PLACEHOLDER_U&id=PLACEHOLDER_ID&c=?"
+              method="get"
+            >
+              <!-- Honeypot (anti-bot). Mailchimp expects this; keep it visually hidden. -->
+              <div aria-hidden="true" class="hp-field">
+                <label>Leave this field empty
+                  <input type="text" name="b_PLACEHOLDER_U_PLACEHOLDER_ID" tabindex="-1" value="" autocomplete="off" />
+                </label>
+              </div>
+
+              <div class="field">
+                <label for="f-name" data-i18n="form.name"></label>
+                <input type="text" id="f-name" name="FNAME" autocomplete="name" required />
+                <small class="field-error" data-error-for="f-name"></small>
+              </div>
+
+              <div class="field">
+                <label for="f-email" data-i18n="form.email"></label>
+                <input type="email" id="f-email" name="EMAIL" autocomplete="email" inputmode="email" required />
+                <small class="field-error" data-error-for="f-email"></small>
+              </div>
+
+              <div class="field">
+                <label for="f-phone" data-i18n="form.phone"></label>
+                <input type="tel" id="f-phone" name="PHONE" autocomplete="tel" inputmode="tel" required />
+                <small class="field-error" data-error-for="f-phone"></small>
+              </div>
+
+              <div class="field">
+                <label for="f-address" data-i18n="form.address"></label>
+                <input type="text" id="f-address" name="ADDRESS" autocomplete="street-address" required />
+                <small class="field-error" data-error-for="f-address"></small>
+              </div>
+
+              <div class="field">
+                <label for="f-situation" data-i18n="form.situation"></label>
+                <!--
+                  SITUATION dropdown. The VALUES (not the labels) are what
+                  Mailchimp stores and what the follow-up journeys branch on —
+                  they stay in English in both languages on purpose, so the
+                  automation has one set of conditions, not two.
+                  ⚠ The field is optional, so it CAN arrive empty. Empty must
+                  route to the nurture track or that lead gets nothing.
+                  See SECUENCIA-02-lisa-rental.md in realtors-san-diego\.
+                -->
+                <select id="f-situation" name="SITUATION">
+                  <option value="" data-i18n="form.situation.placeholder"></option>
+                  <option value="Relocating" data-i18n="form.situation.opt1"></option>
+                  <option value="Inherited" data-i18n="form.situation.opt2"></option>
+                  <option value="Investment" data-i18n="form.situation.opt3"></option>
+                  <option value="Deciding to sell" data-i18n="form.situation.opt4"></option>
+                  <option value="Other" data-i18n="form.situation.opt5"></option>
+                </select>
+              </div>
+
+              <!--
+                TCPA CONSENT (required — California). Required checkbox with its
+                own validator; the form will not submit without it. Map
+                TCPA_CONSENT to a Mailchimp merge field if you want the consent
+                timestamped on the contact record.
+              -->
+              <div class="consent-field">
+                <input type="checkbox" id="f-consent" name="TCPA_CONSENT" value="yes" required />
+                <label for="f-consent" data-i18n="form.consent"></label>
+              </div>
+              <small class="field-error" data-error-for="f-consent"></small>
+
+              <button type="submit" class="btn btn-accent btn-block btn-submit">
+                <span class="btn-label" data-i18n="cta.primary"></span>
+                <span class="btn-spinner" aria-hidden="true"></span>
+              </button>
+
+              <p class="form-reassure" data-i18n="form.reassure"></p>
+              <p class="form-feedback" id="form-feedback" role="alert" aria-live="assertive"></p>
+            </form>
+
+            <!-- Success state (revealed in place after submit) -->
+            <div class="form-success" id="form-success" hidden>
+              <div class="form-success-check" aria-hidden="true">✓</div>
+              <h3 data-i18n="success.title"></h3>
+              <p data-i18n="success.body"></p>
+              <a href="#" class="btn btn-outline btn-block" data-contact-link="phone">
+                <span data-i18n="success.call"></span> <span data-contact="phone"></span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         [B] TRUST BAR
+         ========================================================= -->
+    <section class="trust-bar" data-i18n-attr="aria-label:trust.aria">
+      <div class="container trust-row">
+        <div class="trust-item"><span class="trust-dot" aria-hidden="true"></span><span data-i18n="trust.1"></span></div>
+        <div class="trust-item"><span class="trust-dot" aria-hidden="true"></span><span data-i18n="trust.2"></span></div>
+        <div class="trust-item"><span class="trust-dot" aria-hidden="true"></span><span data-i18n="trust.3"></span></div>
+        <div class="trust-item"><span class="trust-dot" aria-hidden="true"></span><span data-i18n="trust.4"></span></div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         [C] PROBLEM / EMPATHY
+         ========================================================= -->
+    <section class="section" id="problem">
+      <div class="container narrow">
+        <h2 class="section-title" data-i18n="problem.title"></h2>
+        <ul class="pain-list">
+          <li><span class="pain-icon" aria-hidden="true">•</span><span data-i18n="problem.p1"></span></li>
+          <li><span class="pain-icon" aria-hidden="true">•</span><span data-i18n="problem.p2"></span></li>
+          <li><span class="pain-icon" aria-hidden="true">•</span><span data-i18n="problem.p3"></span></li>
+          <li><span class="pain-icon" aria-hidden="true">•</span><span data-i18n="problem.p4"></span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         [D] WHAT YOU GET
+         ========================================================= -->
+    <section class="section section-alt" id="what-you-get">
+      <div class="container">
+        <h2 class="section-title center" data-i18n="get.title"></h2>
+        <div class="cards-3">
+          <article class="value-card">
+            <div class="value-num">1</div>
+            <h3 data-i18n="get.c1.title"></h3>
+            <p data-i18n="get.c1.body"></p>
+          </article>
+          <article class="value-card">
+            <div class="value-num">2</div>
+            <h3 data-i18n="get.c2.title"></h3>
+            <p data-i18n="get.c2.body"></p>
+          </article>
+          <article class="value-card">
+            <div class="value-num">3</div>
+            <h3 data-i18n="get.c3.title"></h3>
+            <p data-i18n="get.c3.body"></p>
+          </article>
+        </div>
+        <div class="center mt">
+          <a href="#lead-form" class="btn btn-accent" data-scroll><span data-i18n="cta.primary"></span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         [E] HOW IT WORKS
+         ========================================================= -->
+    <section class="section" id="how">
+      <div class="container">
+        <h2 class="section-title center" data-i18n="how.title"></h2>
+        <ol class="steps">
+          <li class="step">
+            <div class="step-num">1</div>
+            <p data-i18n="how.s1"></p>
+          </li>
+          <li class="step">
+            <div class="step-num">2</div>
+            <p data-i18n="how.s2"></p>
+          </li>
+          <li class="step">
+            <div class="step-num">3</div>
+            <p data-i18n="how.s3"></p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         [F] WHY CHRISTINA
+         ========================================================= -->
+    <section class="section section-alt" id="why-christina">
+      <div class="container why-grid">
+        <div class="why-photo">
+          <!-- Her headshot (AI-retouched from a real photo, per Vicente
+               2026-08-06). Source: the PORTRAIT-orientation PNG in
+               Desktop\Christina Rounds\ (…12_54_46 p.m.png) — full width kept,
+               only the height trimmed, so almost nothing of the frame is lost.
+               Exported at 2× for retina; 1.8 MB PNG → 78 KB JPEG.
+               Christina still has to okay it. -->
+          <img
+            src="assets/christina-rounds.jpg"
+            alt="Christina Rounds, Realtor and Property Manager at Encore Realty"
+            width="840"
+            height="960"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <div class="why-copy">
+          <h2 class="section-title" data-i18n="christina.title"></h2>
+          <!-- TODO[COPY]: draft bio — Christina must confirm years of
+               experience and wording before this goes live. -->
+          <p data-i18n="christina.bio"></p>
+          <!-- TODO[COPY]: draft quote written in her voice. These are NOT her
+               words yet — hers to edit or approve. -->
+          <blockquote class="why-quote" data-i18n="christina.quote"></blockquote>
+          <a href="#lead-form" class="btn btn-accent" data-scroll><span data-i18n="cta.primary"></span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         [G] SOCIAL PROOF — placeholder block (NO invented testimonials)
+         ========================================================= -->
+    <section class="section" id="testimonials">
+      <div class="container">
+        <h2 class="section-title center" data-i18n="testi.title"></h2>
+        <!--
+          TODO[CONTENT]: replace these placeholders with REAL testimonials only.
+          Format: owner first name + San Diego neighborhood. Do not invent.
+        -->
+        <div class="cards-3">
+          <article class="testi-card is-placeholder">
+            <p class="testi-quote" data-i18n="testi.placeholder"></p>
+            <p class="testi-author" data-i18n="testi.author"></p>
+          </article>
+          <article class="testi-card is-placeholder">
+            <p class="testi-quote" data-i18n="testi.placeholder"></p>
+            <p class="testi-author" data-i18n="testi.author"></p>
+          </article>
+          <article class="testi-card is-placeholder">
+            <p class="testi-quote" data-i18n="testi.placeholder"></p>
+            <p class="testi-author" data-i18n="testi.author"></p>
+          </article>
+        </div>
+        <p class="testi-note" data-i18n="testi.note"></p>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         [H] FAQ — accordion
+         ========================================================= -->
+    <section class="section section-alt" id="faq">
+      <div class="container narrow">
+        <h2 class="section-title center" data-i18n="faq.title"></h2>
+        <div class="accordion">
+          <div class="acc-item">
+            <button class="acc-trigger" aria-expanded="false" aria-controls="faq1">
+              <span data-i18n="faq.q1"></span><span class="acc-icon" aria-hidden="true"></span>
+            </button>
+            <div class="acc-panel" id="faq1" role="region"><p data-i18n="faq.a1"></p></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-trigger" aria-expanded="false" aria-controls="faq2">
+              <span data-i18n="faq.q2"></span><span class="acc-icon" aria-hidden="true"></span>
+            </button>
+            <div class="acc-panel" id="faq2" role="region"><p data-i18n="faq.a2"></p></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-trigger" aria-expanded="false" aria-controls="faq3">
+              <span data-i18n="faq.q3"></span><span class="acc-icon" aria-hidden="true"></span>
+            </button>
+            <div class="acc-panel" id="faq3" role="region"><p data-i18n="faq.a3"></p></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-trigger" aria-expanded="false" aria-controls="faq4">
+              <span data-i18n="faq.q4"></span><span class="acc-icon" aria-hidden="true"></span>
+            </button>
+            <div class="acc-panel" id="faq4" role="region"><p data-i18n="faq.a4"></p></div>
+          </div>
+          <!-- A fifth question ("Can we do this in Spanish?") lived here while
+               the page was bilingual. Removed with the language switch — see
+               the header comment. -->
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         [I] FINAL CTA
+         ========================================================= -->
+    <section class="section final-cta" id="final-cta">
+      <div class="container narrow center">
+        <h2 class="final-cta-title" data-i18n="final.title"></h2>
+        <p class="final-cta-sub" data-i18n="final.sub"></p>
+        <a href="#lead-form" class="btn btn-accent btn-lg" data-scroll><span data-i18n="cta.primary"></span></a>
+        <p class="form-reassure light" data-i18n="form.reassure"></p>
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================================
+       [J] FOOTER — CA compliance: DRE (individual + brokerage),
+       brokerage disclosure, Equal Housing Opportunity.
+       ========================================================= -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <strong>Christina Rounds</strong> · Encore Realty<br />
+        <span class="footer-muted" data-i18n="footer.tagline"></span>
+      </div>
+      <ul class="footer-contact">
+        <li><a href="#" data-contact-link="phone"><span data-contact="phone"></span></a></li>
+        <li><a href="#" data-contact-link="email"><span data-contact="email"></span></a></li>
+        <li><a href="https://www.encorerealtysd.com/" target="_blank" rel="noopener">EncoreRealtySD.com</a></li>
+      </ul>
+      <div class="footer-legal">
+        <span data-i18n="footer.license"></span><br />
+        <span data-i18n="footer.equalhousing"></span><br />
+        <a href="#" data-i18n="footer.privacy"></a>
+        <p class="footer-copy">© <span id="year"></span> Christina Rounds, Encore Realty. <span data-i18n="footer.rights"></span></p>
+        <p class="footer-disclosure" data-i18n="footer.disclosure"></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =========================================================
+       STICKY MOBILE CTA BAR
+       ========================================================= -->
+  <div class="sticky-cta" id="sticky-cta">
+    <a href="#lead-form" class="btn btn-accent btn-block" data-scroll><span data-i18n="cta.sticky"></span></a>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

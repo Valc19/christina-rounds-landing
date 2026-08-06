@@ -1,0 +1,9 @@
+# Internal working notes — strategy, pending inputs, drafts, client emails.
+# NOT for the repo: this project gets published as a public demo page.
+README.md
+CORREO-*.md
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.log
